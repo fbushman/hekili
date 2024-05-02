@@ -14,54 +14,52 @@ actions+=/run_action_list,name=cat,if=buff.cat_form.up
 actions+=/cat_form,if=!up
 
 actions.cat+=/feral_charge_cat,if=!in_combat
-actions.cat+=/auto_attack
-actions.cat+=/skull_bash_cat
-actions.cat+=/tigers_fury,if=energy<=35&(!buff.omen_of_clarity.react)
-actions.cat+=/berserk,if=buff.tigers_fury.up|(target.time_to_die<25&cooldown.tigers_fury.remains>6)
-actions.cat+=/tolvir_potion,if=buff.bloodlust.react|target.time_to_die<=40
+actions.cat+=/tigers_fury,if=energy<=35&(!buff.clearcasting.up)
+actions.cat+=/berserk,if=buff.tigers_fury.up|(ttd<25&cooldown.tigers_fury.remains>6)
+actions.cat+=/tolvir_potion,if=buff.bloodlust.react|ttd<=40
 actions.cat+=/faerie_fire_feral,if=debuff.faerie_fire.stack<3|!(debuff.sunder_armor.up|debuff.expose_armor.up)
 actions.cat+=/mangle_cat,if=debuff.mangle.remains<=2&(!debuff.mangle.up|debuff.mangle.remains>=0.0)
 actions.cat+=/ravage,if=(buff.stampede_cat.up|buff.t13_4pc_melee.up)&(buff.stampede_cat.remains<=1|buff.t13_4pc_melee.remains<=1)
 actions.cat+=/ferocious_bite,if=buff.combo_points.stack>=1&dot.rip.ticking&dot.rip.remains<=2.1&target.health_pct<=25
 actions.cat+=/ferocious_bite,if=buff.combo_points.stack>=5&dot.rip.ticking&target.health_pct<=25
 actions.cat+=/shred,extend_rip=1,dot.rip.ticking&dot.rip.remains<=4
-actions.cat+=/rip,if=buff.combo_points.stack>=5&target.time_to_die>=6&dot.rip.remains<2.0&(buff.berserk.up|dot.rip.remains<=cooldown.tigers_fury.remains)
+actions.cat+=/rip,if=buff.combo_points.stack>=5&ttd>=6&dot.rip.remains<2.0&(buff.berserk.up|dot.rip.remains<=cooldown.tigers_fury.remains)
 actions.cat+=/ferocious_bite,if=buff.combo_points.stack>=5&dot.rip.remains>5.0&buff.savage_roar.remains>=3.0&buff.berserk.up
-actions.cat+=/rake,if=target.time_to_die>=8.5&buff.tigers_fury.up&dot.rake.remains<9.0&(!dot.rake.ticking|dot.rake.multiplier<multiplier)
-actions.cat+=/rake,if=target.time_to_die>=dot.rake.remains&dot.rake.remains<3.0&(buff.berserk.up|energy>=71|(cooldown.tigers_fury.remains+0.8)>=dot.rake.remains)
-actions.cat+=/shred,if=buff.omen_of_clarity.react
+actions.cat+=/rake,if=ttd>=8.5&buff.tigers_fury.up&dot.rake.remains<9.0&(!dot.rake.ticking|dot.rake.multiplier<multiplier)
+actions.cat+=/rake,if=ttd>=dot.rake.remains&dot.rake.remains<3.0&(buff.berserk.up|energy>=71|(cooldown.tigers_fury.remains+0.8)>=dot.rake.remains)
+actions.cat+=/shred,if=buff.clearcasting.up
 actions.cat+=/savage_roar,if=buff.combo_points.stack>=1&buff.savage_roar.remains<=1
 actions.cat+=/ravage,if=(buff.stampede_cat.up|buff.t13_4pc_melee.up)&cooldown.tigers_fury.remains=0
-actions.cat+=/ferocious_bite,if=(target.time_to_die<=4&buff.combo_points.stack>=5)|target.time_to_die<=1
+actions.cat+=/ferocious_bite,if=(ttd<=4&buff.combo_points.stack>=5)|ttd<=1
 actions.cat+=/ferocious_bite,if=buff.combo_points.stack>=5&dot.rip.remains>=14.0&buff.savage_roar.remains>=10.0
-actions.cat+=/ravage,if=(buff.stampede_cat.up|buff.t13_4pc_melee.up)&!buff.omen_of_clarity.react&buff.tigers_fury.up&time_to_max_energy>1.0
+actions.cat+=/ravage,if=(buff.stampede_cat.up|buff.t13_4pc_melee.up)&!buff.clearcasting.up&buff.tigers_fury.up&time_to_max_energy>1.0
 actions.cat+=/shred,if=(buff.tigers_fury.up|buff.berserk.up)
 actions.cat+=/shred,if=((buff.combo_points.stack<5&dot.rip.remains<3.0)|(buff.combo_points.stack=0&buff.savage_roar.remains<2))
 actions.cat+=/shred,if=cooldown.tigers_fury.remains<=3.0
-actions.cat+=/shred,if=target.time_to_die<=8.5
+actions.cat+=/shred,if=ttd<=8.5
 actions.cat+=/shred,if=time_to_max_energy<=1.0
 
 ## OLD ###
-#actions.cat+=/tigers_fury,use_off_gcd=1,if=energy.current<30-(buff.clearcasting.up&15|0)
-#actions.cat+=/mangle_cat,if=!debuff.mangle.up&ttd>1&!wait_for_ff
-#actions.cat+=/faerie_fire_feral,if=!glyph.omen_of_clarity.enabled&!debuff.armor_reduction.up&target.outside2
-#actions.cat+=/faerie_fire_feral,if=glyph.omen_of_clarity.enabled&!buff.clearcasting.up&(target.outside2|buff.berserk.up&ff_during_berserk|!buff.berserk.up&energy.current<87)&(!rip_now|energy.current<action.rip.spend)&can_spend_ff
-#actions.cat+=/feral_charge_cat,if=target.outside7
-#actions.cat+=/berserk,use_off_gcd=1,if=!wait_for_tf&debuff.rip.up&!buff.clearcasting.up
-#actions.cat+=/ravage,if=energy.current<=90
-#actions.cat+=/rip,if=rip_now
-##actions.cat+=/savage_roar,if=debuff.rip.up&buff.savage_roar.up&buff.savage_roar.remains-(rip_maxremains+settings.rip_leeway)<=0&rip_maxremains+settings.min_roar_offset<=sr_new_duration&!buff.savage_roar.remains>=ttd
-##actions.cat+=/ferocious_bite,if=settings.ferociousbite_enabled&energy.current<67&!buff.clearcasting.up&(bite_at_end|bite_before_rip)&(!buff.berserk.up|bite_during_berserk)
-
-#actions.cat+=/rake,if=buff.clearcasting.up&!debuff.bleed.up&ttd>9
-##actions.cat+=/rake,if=!up&!buff.clearcasting.up&(should_rake|!debuff.bleed.up)&ttd>9&!wait_for_ff
-#actions.cat+=/rake,if=(!up|up&buff.tigers_fury.up&debuff.rake.remains<class.auras.rake.duration-6)&!wait_for_ff
-#actions.cat+=/faerie_fire_feral,if=!glyph.omen_of_clarity.enabled&!debuff.armor_reduction.up&energy.current<=90
-#actions.cat+=/savage_roar,if=!buff.savage_roar.up
-#actions.cat+=/feral_charge_cat,if=!aggro&!buff.clearcasting.up&energy.current<=90
-#actions.cat+=/bear_form,if=should_bearweave
-#actions.cat+=/mark_of_the_wild,if=should_flowerweave&mana.pct>settings.min_weave_mana&energy.current<42
-#actions.cat+=/shred,if=!wait_for_ff&(excess_e>=action.shred.spend|buff.clearcasting.up|buff.berserk.up|(cooldown.faerie_fire_feral.remains<=1&energy.current>77|energy.current=100))
+# actions.cat+=/tigers_fury,use_off_gcd=1,if=energy.current<30-(buff.clearcasting.up&15|0)
+# actions.cat+=/mangle_cat,if=!debuff.mangle.up&ttd>1&!wait_for_ff
+# actions.cat+=/faerie_fire_feral,if=!glyph.omen_of_clarity.enabled&!debuff.armor_reduction.up&target.outside2
+# actions.cat+=/faerie_fire_feral,if=glyph.omen_of_clarity.enabled&!buff.clearcasting.up&(target.outside2|buff.berserk.up&ff_during_berserk|!buff.berserk.up&energy.current<87)&(!rip_now|energy.current<action.rip.spend)&can_spend_ff
+# actions.cat+=/feral_charge_cat,if=target.outside7
+# actions.cat+=/berserk,use_off_gcd=1,if=!wait_for_tf&debuff.rip.up&!buff.clearcasting.up
+# actions.cat+=/ravage,if=energy.current<=90
+# actions.cat+=/rip,if=rip_now
+# #actions.cat+=/savage_roar,if=debuff.rip.up&buff.savage_roar.up&buff.savage_roar.remains-(rip_maxremains+settings.rip_leeway)<=0&rip_maxremains+settings.min_roar_offset<=sr_new_duration&!buff.savage_roar.remains>=ttd
+# #actions.cat+=/ferocious_bite,if=settings.ferociousbite_enabled&energy.current<67&!buff.clearcasting.up&(bite_at_end|bite_before_rip)&(!buff.berserk.up|bite_during_berserk)
+# 
+# actions.cat+=/rake,if=buff.clearcasting.up&!debuff.bleed.up&ttd>9
+# #actions.cat+=/rake,if=!up&!buff.clearcasting.up&(should_rake|!debuff.bleed.up)&ttd>9&!wait_for_ff
+# actions.cat+=/rake,if=(!up|up&buff.tigers_fury.up&debuff.rake.remains<class.auras.rake.duration-6)&!wait_for_ff
+# actions.cat+=/faerie_fire_feral,if=!glyph.omen_of_clarity.enabled&!debuff.armor_reduction.up&energy.current<=90
+# actions.cat+=/savage_roar,if=!buff.savage_roar.up
+# actions.cat+=/feral_charge_cat,if=!aggro&!buff.clearcasting.up&energy.current<=90
+# actions.cat+=/bear_form,if=should_bearweave
+# actions.cat+=/mark_of_the_wild,if=should_flowerweave&mana.pct>settings.min_weave_mana&energy.current<42
+# actions.cat+=/shred,if=!wait_for_ff&(excess_e>=action.shred.spend|buff.clearcasting.up|buff.berserk.up|(cooldown.faerie_fire_feral.remains<=1&energy.current>77|energy.current=100))
 ## OLD ##
 
 actions.cat_aoe+=/faerie_fire_feral,if=glyph.omen_of_clarity.enabled&!buff.clearcasting.up&(buff.berserk.up&ff_during_berserk|!buff.berserk.up&energy.current<87)&can_spend_ff
