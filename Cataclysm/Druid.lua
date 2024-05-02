@@ -328,6 +328,14 @@ spec:RegisterStateExpr("ttd", function()
     return target.time_to_die
 end)
 
+
+spec:RegisterStateExpr("time_to_max_energy", function()
+    if buff.tigers_fury.up or buff.berserk.up then
+        return state:TimeToResource( state.energy , 120 )
+    end
+    return state:TimeToResource( state.energy , 100 )
+end)
+
 spec:RegisterStateExpr("base_end_thresh", function()
     return 10
 end)
